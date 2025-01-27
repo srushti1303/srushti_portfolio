@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srushti Kamble - Data Science Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .project-card {
+            transition: transform 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+        .skill-badge:hover {
+            transform: scale(1.05);
+            background-color: #4F46E5;
+            color: white;
+        }
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #4F46E5, #9333EA);
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+        .project-image {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .project-image:hover {
+            transform: scale(1.05);
+        }
+        .contact-card {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: transform 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: scale(1.02);
+        }
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #9333EA 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: moveBackground 20s linear infinite;
+        }
+        @keyframes moveBackground {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+        .floating-element {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .contact-form input, .contact-form textarea {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .project-image {
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .project-image:hover {
+            transform: scale(1.02);
+            filter: brightness(0.9);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600">SK</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600">About</a>
+                    <a href="#experience" class="text-gray-700 hover:text-indigo-600">Experience</a>
+                    <a href="#projects" class="text-gray-700 hover:text-indigo-600">Projects</a>
+                    <a href="#skills" class="text-gray-700 hover:text-indigo-600">Skills</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-bg pt-20 pb-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
+          <div class="text-center">
+              <div class="floating-element mb-8">
+                  <img src="assets/Untitled design-2.png" alt="Profile" class="rounded-full w-32 h-32 mx-auto shadow-lg">
+              </div>
+              <h1 class="text-4xl font-bold text-white sm:text-5xl md:text-6xl mb-4 floating-element">
+                  Srushti Kamble
+              </h1>
+              <p class="mt-3 max-w-md mx-auto text-xl text-gray-100 sm:text-2xl md:mt-5 md:max-w-3xl">
+                Data Science Graduate | Curious & Creative | Seeking a Role Where I Can Make a Difference
+              </p>
+              <div class="mt-8 flex justify-center space-x-4">
+                  <a href="#contact" id="contact-me-btn" 
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-600 bg-white hover:bg-gray-50 transition-all transform hover:scale-105">
+                      <i class="fas fa-envelope mr-2"></i>
+                      Contact Me
+                  </a>
+                  <a href="assets/Srushti_Kamble.pdf" 
+                    class="inline-flex items-center px-6 py-3 border-2 border-white text-base font-medium rounded-full text-white hover:bg-white hover:text-indigo-600 transition-all transform hover:scale-105"
+                    onclick="downloadCV()">
+                      <i class="fas fa-download mr-2"></i>
+                      Download CV
+                  </a>
+              </div>
+              <div class="mt-8 flex justify-center space-x-6">
+                  <a href="https://www.linkedin.com/in/srushti-kamble1308/" target="_blank" class="text-white hover:text-gray-200 transform hover:scale-110 transition-all">
+                      <i class="fab fa-linkedin text-3xl"></i>
+                  </a>
+                  <a href="https://github.com/srushti1303" target="_blank" class="text-white hover:text-gray-200 transform hover:scale-110 transition-all">
+                      <i class="fab fa-github text-3xl"></i>
+                  </a>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">About Me</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <p class="text-lg text-gray-700">
+                        I'm a Data Science graduate student at Stevens Institute of Technology, passionate about turning data into actionable insights. With experience in machine learning, statistical analysis, and data engineering, I specialize in building scalable solutions that drive business value. I'm a quick learner, always eager to tackle new challenges and collaborate with talented teams. My journey in data science began with a hunger to understand the "why" behind the numbers. Now, I'm driven by the potential of AI to make a positive impact, whether it's optimizing business processes or creating innovative solutions like my mental health support chatbot.
+                    </p>
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Education</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-indigo-600">Stevens Institute of Technology</h4>
+                                <p class="text-gray-600">M.S. in Data Science (2023-2025)</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-indigo-600">G H Raisoni College of Engineering</h4>
+                                <p class="text-gray-600">B.E. in Information Technology (2018-2022)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <canvas id="skillsChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Experience</h2>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-indigo-600">Data Science Intern</h3>
+                    <p class="text-gray-600">TechCiti Software Consulting | July 2021 - December 2021</p>
+                    <ul class="mt-4 space-y-2 text-gray-700">
+                        <li>• Led development of SQL-driven inventory management system</li>
+                        <li>• Designed and optimized backend architecture for improved data quality and performance</li>
+                        <li>• Built ETL pipelines and Tableau dashboards for data visualization and reporting</li>
+                        <li>• Collaborated with cross-functional teams to ensure system alignment with business requirements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured Projects</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <!-- Project Card 1 -->
+              <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden">
+                  <div class="p-6">
+                      <div class="mb-4">
+                          <img src="assets/Gemini_Generated_Image_ih2bcnih2bcnih2b.jpg" alt="Electronic Sales Analytics" class="project-image rounded-lg w-full object-cover" onclick="showProjectDetails(this)">
+                      </div>
+                      <div class="flex justify-between items-center mb-4">
+                          <h3 class="text-xl font-bold text-indigo-600">Electronic Sales Analytics</h3>
+                          <a href="https://github.com/srushti1303/sales_etl_pipeline" target="_blank" class="text-gray-600 hover:text-indigo-600">
+                              <i class="fab fa-github text-2xl"></i>
+                          </a>
+                      </div>
+                      <p class="text-gray-600 mb-4">Data Engineering Project</p>
+                      <p class="text-gray-700 mb-4">
+                          Engineered automated data pipeline using Mage.ai, processing 20,000+ customer records. Achieved 40% faster query performance and identified $21.5M revenue opportunity.
+                      </p>
+                      <div class="flex flex-wrap gap-2">
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">Mage.ai</span>
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">BigQuery</span>
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">Looker Studio</span>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Project Card 2 -->
+              <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden">
+                  <div class="p-6">
+                      <div class="mb-4">
+                          <img src="assets/Gemini_Generated_Image_mw14kxmw14kxmw14.jpg" alt="Mental Health Chatbot" class="project-image rounded-lg w-full object-cover" onclick="showProjectDetails(this)">
+                      </div>
+                      <div class="flex justify-between items-center mb-4">
+                          <h3 class="text-xl font-bold text-indigo-600">Mental Health Support Chatbot</h3>
+                          <a href="https://github.com/srushti1303/mental_health_chatbot" target="_blank" class="text-gray-600 hover:text-indigo-600">
+                              <i class="fab fa-github text-2xl"></i>
+                          </a>
+                      </div>
+                      <p class="text-gray-600 mb-4">AI Application</p>
+                      <p class="text-gray-700 mb-4">
+                          Developed an AI chatbot achieving 92% positive user feedback. Implemented PyTorch and NLTK, improving response accuracy by 85%.
+                      </p>
+                      <div class="flex flex-wrap gap-2">
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">PyTorch</span>
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">NLTK</span>
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">Python</span>
+                      </div>
+                  </div>
+              </div>
+              <!-- Project Card 3 -->
+              <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <div class="mb-4">
+                        <img src="assets/Gemini_Generated_Image_na3bisna3bisna3b.jpg" alt="Customer Lifetime Value Prediction " class="project-image rounded-lg w-full object-cover" onclick="showProjectDetails(this)">
+                    </div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-indigo-600">Customer Lifetime Value Prediction </h3>
+                        <a href="https://github.com/srushti1303/customer_lifetime-" target="_blank" class="text-gray-600 hover:text-indigo-600">
+                            <i class="fab fa-github text-2xl"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mb-4">Statistical Analysis Project</p>
+                    <p class="text-gray-700 mb-4">
+                      Leveraged SQL, Python, and machine learning to build a predictive model for customer lifetime value, enabling data-driven decisions and driving significant business growth.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">EDA</span>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">Feature Engineering</span>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">Predictive Modeling</span>
+                    </div>
+                  </div>
+              </div>
+              <!-- Project Card 4 -->
+              <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <div class="mb-4">
+                        <img src="assets/20200901_002_out_mp4_00_00_03_18_still003_4x3.jpg.avif" alt="Face Mask Detection" class="project-image rounded-lg w-full object-cover" onclick="showProjectDetails(this)">
+                    </div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-indigo-600">Face Mask Detection</h3>
+                        <a href="https://github.com/srushti1303/Face-Mask-Detection" target="_blank" class="text-gray-600 hover:text-indigo-600">
+                            <i class="fab fa-github text-2xl"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mb-4">Computer Vision Project</p>
+                    <p class="text-gray-700 mb-4">
+                      Developed and deployed an image and video processing system with 95% accuracy using TensorFlow, MLOps best practices (DVC), and data augmentation techniques, leading to a 5% increase in detection accuracy.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">TensorFlow</span>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">MLOps</span>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">Flask</span>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+  
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Skills</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="skill-category">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-4">Programming</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">Python</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">R</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-4">AI/Ml</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">PyTorch</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">TensorFlow</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">scikit-learn</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">LLM</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-4">Technology</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">Tableau</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">AWS</span>
+                        <span class="skill-badge px-3 py-1 bg-gray-100 rounded-full text-sm">Airflow</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-r from-indigo-500 to-purple-600">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="contact-card rounded-lg shadow-xl p-8 max-w-2xl mx-auto">
+              <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Let's Connect</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div class="space-y-4">
+                      <div class="flex items-center space-x-4">
+                          <i class="fas fa-envelope text-indigo-600 text-xl"></i>
+                          <a href="mailto:srushtikamble.sk13@gmail.com" class="text-gray-700 hover:text-indigo-600">
+                              srushtikamble.sk13@gmail.com
+                          </a>
+                      </div>
+                      <div class="flex items-center space-x-4">
+                          <i class="fas fa-phone text-indigo-600 text-xl"></i>
+                          <a href="tel:+15513627822" class="text-gray-700 hover:text-indigo-600">
+                              (551) 362-7822
+                          </a>
+                      </div>
+                      <div class="flex items-center space-x-4">
+                          <i class="fas fa-map-marker-alt text-indigo-600 text-xl"></i>
+                          <span class="text-gray-700">Jersey City, NJ</span>
+                      </div>
+                  </div>
+                  <div class="space-y-4">
+                      <a href="https://www.linkedin.com/in/srushti-kamble1308/" target="_blank" 
+                         class="flex items-center space-x-4 p-3 rounded-lg bg-gray-100 hover:bg-indigo-100 transition-colors">
+                          <i class="fab fa-linkedin text-indigo-600 text-xl"></i>
+                          <span class="text-gray-700">LinkedIn</span>
+                      </a>
+                      <a href="https://github.com/srushti1303" target="_blank"
+                         class="flex items-center space-x-4 p-3 rounded-lg bg-gray-100 hover:bg-indigo-100 transition-colors">
+                          <i class="fab fa-github text-indigo-600 text-xl"></i>
+                          <span class="text-gray-700">GitHub</span>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+
+    <script>
+        // contact me button
+        document.getElementById("contact-me-btn").addEventListener("click", function() {
+        document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+        });
+
+        // Initialize Skills Chart
+        const ctx = document.getElementById('skillsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Machine Learning', 'Data Engineering', 'Statistical Analysis', 'Programming', 'Visualization', 'Cloud Computing'],
+                datasets: [{
+                    label: 'Skill Level',
+                    data: [90, 85, 88, 92, 85, 80],
+                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                    borderColor: 'rgba(99, 102, 241, 1)',
+                    pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Project Image Modal
+        function showProjectDetails(img) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white p-4 rounded-lg max-w-2xl w-full mx-4">
+                    <img src="${img.src}" alt="${img.alt}" class="w-full rounded-lg">
+                    <button class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.querySelector('button').onclick = () => modal.remove();
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.remove();
+            };
+        }
+
+
+    </script>
+</body>
+</html>
